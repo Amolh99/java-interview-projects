@@ -26,6 +26,11 @@ One real-world project per interview topic. Each module uses an e-commerce order
 | 18 | [REST API](module-18-rest-api) | Code + tests |
 | 19 | [JUnit & Mockito](module-19-junit-mockito) | Code + tests |
 | 20 | [RabbitMQ](module-20-rabbitmq) | Code + tests |
+| 21 | [Docker & Kubernetes](module-21-docker-kubernetes) | Code + tests |
+| 22 | [AWS](module-22-aws) | Code + tests |
+| 23 | [Build Tools, CI/CD & Git](module-23-build-cicd-git) | Code + tests |
+| 24 | [Design Patterns & SOLID](module-24-design-patterns-solid) | Code + tests |
+| 25 | [Spring Security](module-25-spring-security) | Code + tests |
 
 Each module has its own `pom.xml` and `README.md` with interview questions.
 
