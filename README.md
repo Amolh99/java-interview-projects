@@ -17,6 +17,9 @@ One real-world project per interview topic. Each module uses an e-commerce order
 | 09 | [Java 8 Coding Questions](module-09-java8-coding) | Code + tests |
 | 10 | [Java 8 Employee Questions](module-10-java8-employee) | Code + tests |
 | 11 | [Java 8 Functional Questions](module-11-java8-functional) | Code + tests |
+| 12 | [Java 11-21 Features](module-12-java11-21) | Code + tests |
+| 13 | [Spring Boot & Framework](module-13-spring-boot) | Code + tests |
+| 14 | [Spring WebFlux](module-14-webflux) | Code + tests |
 
 Each module has its own `pom.xml` and `README.md` with interview questions.
 

@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: order-pricing
+
+pricing:
+  tax-rate: 0.08
+  shipping-fee: 4.99
