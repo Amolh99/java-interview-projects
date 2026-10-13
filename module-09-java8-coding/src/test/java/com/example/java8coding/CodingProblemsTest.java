@@ -12,8 +12,10 @@ class CodingProblemsTest {
 
     @Test
     void firstNonRepeatedCharKeepsOrder() {
-        assertEquals(Optional.of('w'), CodingProblems.firstNonRepeatedChar("swiss").map(c -> c == 'w' ? 'w' : c).or(() -> Optional.of('w')).filter(c -> c == 'w'));
-        assertEquals(Optional.of('w'), CodingProblems.firstNonRepeatedChar("aabbcwd"));
+        // s:3, w:1, i:1 -> 'w' is the first character that appears once
+        assertEquals(Optional.of('w'), CodingProblems.firstNonRepeatedChar("swiss"));
+        // a:2, b:2, c:1 -> 'c'
+        assertEquals(Optional.of('c'), CodingProblems.firstNonRepeatedChar("aabbcwd"));
         assertTrue(CodingProblems.firstNonRepeatedChar("aabb").isEmpty());
     }
 

@@ -1,7 +1,5 @@
 package com.example.java8coding;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -9,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -31,7 +30,10 @@ public final class CodingProblems {
     /** Groups words that are anagrams. The sorted letters form the grouping key. */
     public static Collection<List<String>> groupAnagrams(List<String> words) {
         return words.stream().collect(Collectors.groupingBy(
-                w -> w.chars().sorted().collect(StringBuilderCollector.INSTANCE),
+                w -> w.chars()
+                        .sorted()
+                        .mapToObj(c -> String.valueOf((char) c))
+                        .collect(Collectors.joining()),
                 LinkedHashMap::new,
                 Collectors.toList())).values();
     }
@@ -63,6 +65,6 @@ public final class CodingProblems {
                 .entrySet().stream()
                 .filter(e -> e.getValue() > 1)
                 .map(Map.Entry::getKey)
-                .collect(Collectors.toCollection(java.util.TreeSet::new));
+                .collect(Collectors.toCollection(TreeSet::new));
     }
 }
