@@ -1,0 +1,14 @@
+services:
+  inventory:
+    build: ../module-15-microservices-inventory
+    ports:
+      - "8081:8081"
+
+  orders:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      INVENTORY_BASE_URL: http://inventory:8081
+    depends_on:
+      - inventory

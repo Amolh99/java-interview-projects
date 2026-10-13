@@ -20,6 +20,9 @@ One real-world project per interview topic. Each module uses an e-commerce order
 | 12 | [Java 11-21 Features](module-12-java11-21) | Code + tests |
 | 13 | [Spring Boot & Framework](module-13-spring-boot) | Code + tests |
 | 14 | [Spring WebFlux](module-14-webflux) | Code + tests |
+| 15 | [Microservices](module-15-microservices) | Code + tests |
+| 16 | [Resilience & Caching](module-16-resilience-caching) | Code + tests |
+| 17 | [JPA & Hibernate](module-17-jpa-hibernate) | Code + tests |
 
 Each module has its own `pom.xml` and `README.md` with interview questions.
 
