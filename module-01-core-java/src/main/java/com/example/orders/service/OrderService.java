@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 
 public class OrderService {
 
-    // Thread-safe store; compute-style updates below use ConcurrentHashMap.compute for atomic transitions.
     private final Map<String, Order> orders = new ConcurrentHashMap<>();
 
     public Order place(String customerId, List<OrderItem> items) {
@@ -45,11 +44,20 @@ public class OrderService {
     /** Applies an event using an exhaustive pattern-matching switch over the sealed interface. */
     public Order apply(OrderEvent event) {
         return switch (event) {
-            case OrderEvent.Placed e -> place(e.customerId(), List.of()).withStatus(OrderStatus.PLACED);
+            case OrderEvent.Placed e -> register(e);
             case OrderEvent.Paid e -> pay(e.orderId());
             case OrderEvent.Shipped e -> ship(e.orderId());
             case OrderEvent.Cancelled e -> cancel(e.orderId());
         };
+    }
+
+    /** Stores an order using the id supplied by the event. putIfAbsent makes duplicate events fail fast. */
+    private Order register(OrderEvent.Placed e) {
+        Order order = new Order(e.orderId(), e.customerId(), e.items(), OrderStatus.PLACED);
+        if (orders.putIfAbsent(order.id(), order) != null) {
+            throw new IllegalStateException("duplicate order: " + e.orderId());
+        }
+        return order;
     }
 
     /** Revenue of non-cancelled orders per customer, sorted by customer id. */

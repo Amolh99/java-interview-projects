@@ -75,16 +75,33 @@ class OrderServiceTest {
     }
 
     @Test
-    void applyEventUsesExhaustiveSwitch() {
-        Order order = newOrder("bob", "5", 1);
-        Order paid = service.apply(new OrderEvent.Paid(order.id(), new BigDecimal("5")));
-        assertEquals(OrderStatus.PAID, paid.status());
-        Order shipped = service.apply(new OrderEvent.Shipped(order.id(), "TRK-1"));
-        assertEquals(OrderStatus.SHIPPED, shipped.status());
+    void placedEventCreatesOrderWithItsOwnId() {
+        List<OrderItem> items = List.of(new OrderItem("SKU", 2, new BigDecimal("5")));
+        Order order = service.apply(new OrderEvent.Placed("evt-order-1", "bob", items));
+        assertEquals("evt-order-1", order.id());
+        assertEquals(OrderStatus.PLACED, order.status());
+        assertTrue(service.find("evt-order-1").isPresent());
     }
 
     @Test
-    void concurrentPlacesAreAllStored() throws InterruptedException {
+    void duplicatePlacedEventIsRejected() {
+        List<OrderItem> items = List.of(new OrderItem("SKU", 1, BigDecimal.ONE));
+        service.apply(new OrderEvent.Placed("dup", "bob", items));
+        assertThrows(IllegalStateException.class,
+                () -> service.apply(new OrderEvent.Placed("dup", "bob", items)));
+    }
+
+    @Test
+    void paidAndShippedEventsDriveTransitions() {
+        Order order = newOrder("bob", "5", 1);
+        assertEquals(OrderStatus.PAID,
+                service.apply(new OrderEvent.Paid(order.id(), new BigDecimal("5"))).status());
+        assertEquals(OrderStatus.SHIPPED,
+                service.apply(new OrderEvent.Shipped(order.id(), "TRK-1")).status());
+    }
+
+    @Test
+    void concurrentPlacesAreAllStored() {
         IntStream.range(0, 200).parallel().forEach(i -> newOrder("c" + (i % 5), "1", 1));
         Map<String, BigDecimal> revenue = service.revenueByCustomer();
         assertEquals(5, revenue.size());
