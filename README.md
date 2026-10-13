@@ -14,6 +14,9 @@ One real-world project per interview topic. Each module uses an e-commerce order
 | 06 | [Multithreading & Concurrency](module-06-concurrency) | Code + tests |
 | 07 | [Exception Handling](module-07-exceptions) | Code + tests |
 | 08 | [Java 8 Interview Questions](module-08-java8-interview) | Code + tests |
+| 09 | [Java 8 Coding Questions](module-09-java8-coding) | Code + tests |
+| 10 | [Java 8 Employee Questions](module-10-java8-employee) | Code + tests |
+| 11 | [Java 8 Functional Questions](module-11-java8-functional) | Code + tests |
 
 Each module has its own `pom.xml` and `README.md` with interview questions.
 
