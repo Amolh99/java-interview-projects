@@ -23,6 +23,9 @@ One real-world project per interview topic. Each module uses an e-commerce order
 | 15 | [Microservices](module-15-microservices) | Code + tests |
 | 16 | [Resilience & Caching](module-16-resilience-caching) | Code + tests |
 | 17 | [JPA & Hibernate](module-17-jpa-hibernate) | Code + tests |
+| 18 | [REST API](module-18-rest-api) | Code + tests |
+| 19 | [JUnit & Mockito](module-19-junit-mockito) | Code + tests |
+| 20 | [RabbitMQ](module-20-rabbitmq) | Code + tests |
 
 Each module has its own `pom.xml` and `README.md` with interview questions.
 
