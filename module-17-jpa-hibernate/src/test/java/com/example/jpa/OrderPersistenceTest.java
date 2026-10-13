@@ -2,12 +2,14 @@ package com.example.jpa;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Runs against an embedded H2 database, with each test rolled back afterwards. */
-@DataJpaTest
+/** Loads the full context so OrderService is wired. Each test is rolled back afterwards. */
+@SpringBootTest
+@Transactional
 class OrderPersistenceTest {
 
     @Autowired OrderService service;

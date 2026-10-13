@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -67,7 +68,6 @@ class ResilienceCachingTest {
         Clock clock = Clock.fixed(Instant.parse("2026-01-01T00:00:00Z"), ZoneOffset.UTC);
         CircuitBreaker breaker = new CircuitBreaker(2, Duration.ofSeconds(30), clock);
         AtomicInteger downstreamCalls = new AtomicInteger();
-        Runnable failing = () -> { };
 
         for (int i = 0; i < 2; i++) {
             assertThrows(IllegalStateException.class, () -> breaker.call(() -> {
@@ -86,11 +86,11 @@ class ResilienceCachingTest {
     @Test
     void circuitHalfOpensAfterCoolDown() {
         Instant start = Instant.parse("2026-01-01T00:00:00Z");
-        Clock[] now = {Clock.fixed(start, ZoneOffset.UTC)};
+        Instant[] now = {start};
         Clock moving = new Clock() {
-            @Override public java.time.ZoneId getZone() { return ZoneOffset.UTC; }
-            @Override public Clock withZone(java.time.ZoneId zone) { return this; }
-            @Override public Instant instant() { return now[0].instant(); }
+            @Override public ZoneId getZone() { return ZoneOffset.UTC; }
+            @Override public Clock withZone(ZoneId zone) { return this; }
+            @Override public Instant instant() { return now[0]; }
         };
         CircuitBreaker breaker = new CircuitBreaker(1, Duration.ofSeconds(30), moving);
         assertThrows(IllegalStateException.class, () -> breaker.call(() -> {
@@ -98,7 +98,7 @@ class ResilienceCachingTest {
         }));
         assertEquals(CircuitBreaker.State.OPEN, breaker.state());
 
-        now[0] = Clock.fixed(start.plusSeconds(31), ZoneOffset.UTC);
+        now[0] = start.plusSeconds(31);
         assertEquals(CircuitBreaker.State.HALF_OPEN, breaker.state());
     }
 }
