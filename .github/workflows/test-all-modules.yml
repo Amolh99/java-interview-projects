@@ -1,0 +1,52 @@
+name: Test all modules
+
+on:
+  push:
+    branches: [main, add-test-workflow]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: ${{ matrix.module }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        module:
+          - module-01-core-java
+          - module-02-spring-rest-kafka
+          - module-03-jvm
+          - module-04-collections
+          - module-05-memory
+          - module-06-concurrency
+          - module-07-exceptions
+          - module-08-java8-interview
+          - module-09-java8-coding
+          - module-10-java8-employee
+          - module-11-java8-functional
+          - module-12-java11-21
+          - module-13-spring-boot
+          - module-14-webflux
+          - module-15-microservices
+          - module-16-resilience-caching
+          - module-17-jpa-hibernate
+          - module-18-rest-api
+          - module-19-junit-mockito
+          - module-20-rabbitmq
+          - module-21-docker-kubernetes
+          - module-22-aws
+          - module-23-build-cicd-git
+          - module-24-design-patterns-solid
+          - module-25-spring-security
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: mvn test
+        working-directory: ${{ matrix.module }}
+        run: mvn -B test
